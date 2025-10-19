@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Poetry virtual envs
+.venv/
+
+# Dist
+dist/
+build/
+
+# VSCode
+.vscode/
