@@ -28,6 +28,10 @@ def _site_registry() -> Dict[str, str]:
             "module": "super_dl.sites.cumslutx",
             "hosts": ["cumslutx.com", "girlxnude.com", "fapplay.com"],
         },
+            "simpthots": {
+                "module": "super_dl.sites.simpthots",
+                "hosts": ["simpthots.com"],
+            },
     }
 
 
