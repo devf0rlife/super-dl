@@ -93,15 +93,43 @@ def main(argv=None) -> int:
         print(f"Failed to import module for site {args.site}: {exc}", file=sys.stderr)
         return 3
 
-    # Expecting the module to expose `fetch_page`, `extract_mp4_url`, and `download`.
+    # Module interface handling: prefer a high-level `full_download_from_page` if present.
     try:
-        html = module.fetch_page(args.url)
-        mp4_url = module.extract_mp4_url(html)
-        if not mp4_url:
-            print("No mp4 URL found on the page", file=sys.stderr)
-            return 4
-        rc = module.download(mp4_url, out_path=args.output)
-        return rc
+        # 1) high-level helper (eroleaked implements this)
+        if hasattr(module, "full_download_from_page"):
+            return module.full_download_from_page(args.url, out_path=args.output)
+
+        # 2) classic mp4 extraction flow: fetch_page -> extract_mp4_url -> download
+        if all(hasattr(module, name) for name in ("fetch_page", "extract_mp4_url", "download")):
+            html = module.fetch_page(args.url)
+            mp4_url = module.extract_mp4_url(html)
+            if not mp4_url:
+                print("No mp4 URL found on the page", file=sys.stderr)
+                return 4
+            return module.download(mp4_url, out_path=args.output)
+
+        # 3) iframe -> m3u8 flow: fetch_page -> extract_iframe_src -> fetch iframe -> extract_m3u8_from_html -> download
+        if all(hasattr(module, name) for name in ("fetch_page", "extract_iframe_src", "extract_m3u8_from_html", "download")):
+            page_html = module.fetch_page(args.url)
+            iframe_src = module.extract_iframe_src(page_html)
+            if not iframe_src:
+                print("No iframe found on page", file=sys.stderr)
+                return 4
+
+            # Resolve relative iframe URLs
+            from urllib.parse import urljoin
+
+            iframe_src = urljoin(args.url, iframe_src)
+
+            iframe_html = module.fetch_page(iframe_src)
+            m3u8 = module.extract_m3u8_from_html(iframe_html)
+            if not m3u8:
+                print("No .m3u8 file found on the page.", file=sys.stderr)
+                return 4
+            return module.download(m3u8, out_path=args.output)
+
+        print("Site module does not expose a supported interface", file=sys.stderr)
+        return 5
     except Exception as exc:  # pragma: no cover - runtime
         print(f"Error while processing: {exc}", file=sys.stderr)
         return 5
