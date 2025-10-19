@@ -20,6 +20,10 @@ def _site_registry() -> Dict[str, str]:
             "module": "super_dl.sites.eroleaked",
             "hosts": ["eroleaked.com"],
         },
+        "amateurdoporn": {
+            "module": "super_dl.sites.amateurdoporn",
+            "hosts": ["amateurdoporn.com"],
+        },
     }
 
 
