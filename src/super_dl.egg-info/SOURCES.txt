@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/super_dl.egg-info/PKG-INFO
+src/super_dl.egg-info/SOURCES.txt
+src/super_dl.egg-info/dependency_links.txt
+src/super_dl.egg-info/entry_points.txt
+src/super_dl.egg-info/requires.txt
+src/super_dl.egg-info/top_level.txt
+tests/test_basic.py
