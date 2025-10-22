@@ -9,3 +9,4 @@ src/super_dl.egg-info/entry_points.txt
 src/super_dl.egg-info/requires.txt
 src/super_dl.egg-info/top_level.txt
 tests/test_basic.py
+tests/test_thothub.py

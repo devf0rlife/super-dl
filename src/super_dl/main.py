@@ -36,6 +36,10 @@ def _site_registry() -> Dict[str, str]:
                 "module": "super_dl.sites.thothub",
                 "hosts": ["thothub.to", "thothub.org"],
             },
+            "thotfans": {
+                "module": "super_dl.sites.thotfans",
+                "hosts": ["thotfans.com"],
+            },
     }
 
 
