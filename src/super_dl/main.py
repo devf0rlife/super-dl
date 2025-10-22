@@ -40,6 +40,10 @@ def _site_registry() -> Dict[str, str]:
                 "module": "super_dl.sites.thotfans",
                 "hosts": ["thotfans.com"],
             },
+            "fapnut": {
+                "module": "super_dl.sites.fapnut",
+                "hosts": ["fapnut.net"],
+            },
     }
 
 
